@@ -1,21 +1,23 @@
 <template>
 	<div class="signResultGsx">
-		<sign-check></sign-check>
+		<sign-check
+		:data="data"
+		></sign-check>
 		<div class="res">
-			<p>审核结果: {{res}}</p>
-			<p>理由: {{reason}}</p>
-			<p>审核时间: {{time}}</p>
+			<p v-if="data.auditorStatus !== '已通过'"><span>驳回理由</span>: {{data.reason}}</p>
+            <p v-if="data.auditorStatus == '已通过'"><span>审核结果</span>：{{data.auditorStatus}}</p>
+			<p>审核时间: {{data.signTime}}</p>
 		</div>
 	</div>
 </template>
 <script>
 import signCheck from './modules/signCheck'
+import valid, { errors, SIGNAPPROVAL } from "./libs/request";
 export default {
 	data () {
 		return {
-			res: '过来',
-			reason: '55',
-			time: '20178.298'
+			signNumber: this.$route.query.signNumber,
+			data: {}
 
 		}
 	},
@@ -29,7 +31,24 @@ export default {
 		}
 	},
 
+	mounted() {
+		this.getCheckSignRecord()
+	},
+
 	methods: {
+		getCheckSignRecord() {
+            SIGNAPPROVAL.checkSignRecord({
+                id:this.signNumber
+            })
+            .then(valid.call(this))
+            .then(res => {
+				if(res.ok) {
+					this.data = res.data.data
+				}
+            })
+            .catch(errors.call(this))
+            .finally(() => {});
+        },
 	}
 }
 </script>

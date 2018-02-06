@@ -86,7 +86,7 @@
             <input type="text" class="main-input" :placeholder="placeholder" v-model="model" @input="inputChange" :readonly="readonly" @blur="onBlur"  @keyup.enter="onEnter" 
             @keydown.up.stop.prevent="prevItem" @keydown.down.stop.prevent="nextItem">
             <div v-if="icon" class="icon-right">
-                <Icon :type="icon" @click.native.stop.prevent="onIconClick"></Icon>
+                <i @click.native.stop.prevent="onIconClick" class="icon-sousuo1 iconfont"></i>
             </div>
         </div>
         <div class="dropdown" v-if="hasResult">

@@ -1,11 +1,17 @@
 <template>
 	<div class="newsGsx">
-		<v-select
-		:datafunc = "datafunc"
-		value = '请输入合同号'
-		></v-select>
+		<v-select 
+        style="width:100%;"
+        placeholder="输入合同名称/签约合同编号/学生EC号/学生姓名/顾问姓名"
+        icon="search"
+		:datafunc="datafunc"
+        v-model="compact"
+        @on-enter="textChange" 
+        @on-click="textChange" 
+        @selected="textChange">
+		</v-select>
 		<div class="content">
-			<a class="tab">全部标记为已读</a>
+			<a @click="allRead" class="tab">全部标记为已读</a>
 			<div class="contentDetail" v-for="item in obj">
 				<p @click="detaliInfo">{{item.title}}<i v-if="item.status"></i><span>{{item.time}}</span></p>
 				<div class="noticeContent">
@@ -26,6 +32,7 @@ import vSelect from './modules/vSelect'
 export default {
 	data () {
 		return {
+			compact: '',
 			obj: [
 				{status: true,title: '签约通知', time: '2017.01.7', content: '到哪里看吧大保健安保点击看顶部萨拉丁不解散科技是的比较安康杯丹江口市fhajha'},
 				{status: true,title: '签约通知', time: '2017.01.7', content: '到哪里看吧大保健安保点击看顶部萨拉丁不解散科技是的比较安康杯丹江口市fhajha'},
@@ -45,7 +52,7 @@ export default {
 	},
 	
 	computed: {
-		textZhang() {
+		textChang() {
 
 		}
 	},
@@ -53,6 +60,10 @@ export default {
 	methods: {
 		addActive(index) {
 			this.num = index
+		},
+
+		allRead() {
+			alert(0)
 		},
 
 		routerGo() {
@@ -85,6 +96,10 @@ export default {
 				name: 'newsDetail'
 			})
 		},
+
+		textChange() {
+
+		},
  
 		datafunc() {
 			return new Promise((resole, reject) => {
@@ -105,8 +120,9 @@ export default {
 	.newsGsx {
 		.tab {
 			position: relative;
-			left: 65%;
+			left: 70%;
 			top: 15px;
+			color: #4f77aa;
 		}
 		.content {
 			p:first-of-type {

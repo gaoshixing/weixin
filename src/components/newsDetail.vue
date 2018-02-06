@@ -1,6 +1,6 @@
 <template>
 	<div class="newsDetailGsx">
-		<p class="title">{{obj.title}}</p>
+		<p class="title">《{{obj.title}}》</p>
 		<div class="content">{{obj.content}}</div>
 		<p class="time">{{obj.time}}</p>
 		<div v-if="isShow" class="isAgree">
@@ -42,7 +42,7 @@ export default {
 			color: 	#999;
 		}
 		.content {
-			margin: 28px 0;
+			margin: 28/2px 0;
 		}
 		.isAgree {
 			width: 100%;

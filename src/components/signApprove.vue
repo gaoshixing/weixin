@@ -1,15 +1,20 @@
 <template>
-	<div class="baseGsx">
-		<v-select
-		:datafunc = "datafunc"
-		value = '请输入合同号'
-
-		></v-select>
+	<div class="signApproveGsx">
+		<v-select 
+        style="width:100%;"
+        placeholder="输入合同名称/签约合同编号/学生EC号/学生姓名/顾问姓名"
+        icon="search"
+		:datafunc="datafunc"
+        v-model="compact"
+        @on-enter="textChange" 
+        @on-click="textChange" 
+        @selected="textChange">
+		</v-select>
 		<div class="title">
 			<span v-for="(item, index) in statusList" @click="addActive(index)" :class="{active:num == index}">{{item}}</span>
 		</div>
 		<div class="content" v-for="item in signList">
-			<p @click="routerGo"><<{{item.title}}>> <span class="right">{{item.num}}</span></p>
+			<p @click="routerGo">《{{item.title}}》 <span class="right">{{item.num}}</span></p>
 			<p>提交人: {{item.peope}}</p>
 			<p>提交时间: {{item.time}}</p>
 			<p v-if="num>0">审核时间: {{item.checkTime}}</p>
@@ -26,6 +31,7 @@ import vSelect from './modules/vSelect'
 export default {
 	data () {
 		return {
+			compact: '',
 			statusList: ['待处理', '已处理'],
 			num: 0,
 			signList: [
@@ -67,6 +73,10 @@ export default {
 				{name: 'signDetail'}
 			)
 		},
+
+		textChange() {
+
+		},
  
 		datafunc() {
 			return new Promise((resole, reject) => {
@@ -84,7 +94,7 @@ export default {
 </script>
 
 <style lang= "less">
-	.baseGsx {
+	.signApproveGsx {
 		.icon-zhang {
 			font-size: 150/2px;
 			color: #44bcbc;

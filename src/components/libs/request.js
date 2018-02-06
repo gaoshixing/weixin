@@ -2,7 +2,7 @@ import axios from "axios";
 
 const loginRouter = 'portal.login';
 
-export const baseURL = "/spoc-search/a/ws/search";
+export const baseURL = "/spoc-contract/a/ws/contract";
 
 export const http = axios.create({
     baseURL,
@@ -10,6 +10,7 @@ export const http = axios.create({
     withCredentials: true,
 });
 
+export {SIGNAPPROVAL} from './signApproval';
 
 export default function () {
     return (res) => {
@@ -39,8 +40,3 @@ export const errors = function () {
         }
     }
 }
-
-export const listGrantMenu = (params) => {
-    return axios.get('/spoc-search/a/ws/sys/menu/listGrantMenu',{params});
-}
-

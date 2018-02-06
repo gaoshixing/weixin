@@ -1,23 +1,34 @@
 <template>
 	<div class="signDetailGsx">
-		<sign-check></sign-check>
+		<sign-check
+		:data="data"></sign-check>
 		<div style="height:50px"></div>
 		<div class="isAgree">
-			<span>驳回</span><span>通过</span>
+			<span @click="signReject">驳回</span><span @click="signPass">通过</span>
 		</div>
+		<confirm
+		ref="confirm"
+		:isShow="isShow"
+		></confirm>
 	</div>
 </template>
 
 <script>
 import signCheck from './modules/signCheck'
+import confirm from './modules/confirm'
+
+import valid, { errors, SIGNAPPROVAL } from "./libs/request";
 export default {
 	data () {
 		return {
-			
+			signNumber: this.$route.query.signNumber,
+			data: {},
+			isShow: false,
 		}
 	},
 	components: {
-		signCheck
+		signCheck,
+		confirm
 	},
 	
 	computed: {
@@ -26,7 +37,63 @@ export default {
 		}
 	},
 
+	mounted() {
+		this.getCheckSignRecord()
+	},
+
 	methods: {
+		getCheckSignRecord() {
+            SIGNAPPROVAL.checkSignRecord({
+                id:this.signNumber
+            })
+            .then(valid.call(this))
+            .then(res => {
+				if(res.ok) {
+					this.data = res.data.data
+				}
+            })
+            .catch(errors.call(this))
+            .finally(() => {});
+		},
+		
+		signPass() {
+			alert(0)
+			this.isShow = true
+			return
+			let obj = {
+				ctId:this.signNumber,
+				status:"agree",
+				}
+			SIGNAPPROVAL.signApprovalIsPass(obj)
+			.then(valid.call(this))
+			.then(res => {
+				if(res.ok) {
+					this.$router.replace({
+						name: 'approve'
+					})
+				}
+			})
+			.catch(errors.call(this))
+			.finally(() => {});
+		},
+
+		signReject() {
+			let obj = {
+				ctId: this.signNumber,
+				status: "reject",
+				// reason: this.rejectContent
+			}
+			SIGNAPPROVAL.signApprovalIsPass(obj)
+			.then(valid.call(this))
+			.then(res => {
+				if(res.ok) {
+					this.rejectContent = ''
+					this.getSignApprovalList('first')
+				}
+			})
+			.catch(errors.call(this))
+			.finally(() => {});
+		},
 	}
 }
 </script>
