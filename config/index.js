@@ -7,7 +7,7 @@ const path = require('path')
 module.exports = {
   dev: {
 	port: 8989, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
-	host:'0.0.0.0',
+	// host:'0.0.0.0',
 	// Paths
 	assetsSubDirectory: 'static',
 	//assetsPublicPath

@@ -1,38 +1,3 @@
-<template>
-  <div>
-    <div class="dialog-wrap">
-      <div class="dialog-cover"  v-if="isShow" @click="closeMyself"></div>
-      <transition name="drop">
-        <div class="dialog-content"  v-if="isShow">
-          <p class="dialog-close" @click="closeMyself">x</p>
-          <slot>empty</slot>
-        </div>
-      </transition>
-    </div>
-  </div>
-</template>
-
-<script>
-  export default {
-    props: {
-      isShow: {
-        type: Boolean,
-        default: true
-      }
-    },
-    data () {
-      return {
-
-      }
-    },
-    methods: {
-      closeMyself () {
-        this.$emit('on-close')
-      }
-    }
-  }
-</script>
-
 <style scoped>
   .drop-enter-active {
     transition: all .5s ease;
@@ -72,8 +37,6 @@
     left: 50%;
     margin-left: -25%;
     z-index: 10;
-    border: 2px solid #464068;
-    padding: 2%;
     line-height: 1.6;
   }
   .dialog-close {
@@ -89,3 +52,35 @@
     color: #4fc08d;
   }
 </style>
+<template>
+  <div>
+    <div class="dialog-wrap">
+      <div class="dialog-cover"  v-if="isShow" @click="closeMyself"></div>
+      <transition name="drop">
+        <div class="dialog-content"  v-if="isShow">
+          <slot></slot>
+        </div>
+      </transition>
+    </div>
+  </div>
+</template>
+<script>
+  export default {
+    props: {
+      isShow: {
+        type: Boolean,
+        default: false
+      }
+    },
+    data () {
+      return {
+
+      }
+    },
+    methods: {
+      closeMyself() {
+        this.$emit('on-close')
+      }
+    }
+  }
+</script>

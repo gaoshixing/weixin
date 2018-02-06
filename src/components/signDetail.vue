@@ -4,18 +4,22 @@
 		:data="data"></sign-check>
 		<div style="height:50px"></div>
 		<div class="isAgree">
-			<span @click="signReject">驳回</span><span @click="signPass">通过</span>
+			<span @click="signReject">驳回222</span><span @click="signPass">通过</span>
 		</div>
-		<confirm
-		ref="confirm"
+		<gsx-dialog
 		:isShow="isShow"
-		></confirm>
+		@on-close="close"
+		>
+		<div style="background:#ccc">
+			确定么
+		</div>
+		</gsx-dialog>
 	</div>
 </template>
 
 <script>
 import signCheck from './modules/signCheck'
-import confirm from './modules/confirm'
+import gsxDialog from './modules/gsxDialog'
 
 import valid, { errors, SIGNAPPROVAL } from "./libs/request";
 export default {
@@ -28,7 +32,7 @@ export default {
 	},
 	components: {
 		signCheck,
-		confirm
+		gsxDialog,
 	},
 	
 	computed: {
@@ -38,7 +42,7 @@ export default {
 	},
 
 	mounted() {
-		this.getCheckSignRecord()
+		// this.getCheckSignRecord()
 	},
 
 	methods: {
@@ -56,8 +60,12 @@ export default {
             .finally(() => {});
 		},
 		
+		close() {
+			this.isShow = false
+		},
+
 		signPass() {
-			alert(0)
+		
 			this.isShow = true
 			return
 			let obj = {
@@ -78,6 +86,8 @@ export default {
 		},
 
 		signReject() {
+			console.log(0)
+			alert(0)
 			let obj = {
 				ctId: this.signNumber,
 				status: "reject",
