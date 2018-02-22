@@ -1,7 +1,10 @@
 <style lang="less">
 .v-select-wrap{
     width: 100%;
+    background-color: #f2f2f2;
+    padding: 10px 15px;
     position: relative;
+    box-sizing: border-box;
     .select-able{
         .main-input{
             display: inline-block;
@@ -14,12 +17,13 @@
             box-sizing: border-box;
             color: #495060;
             background-color: transparent;
-            width: 100%;
+            width: 100%; 
+            background-color: #fff;
             border-radius: 4px;
             transition: border 0.2s ease-in-out, background 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            &:hover{
-                border-color: #69c9c5;
-            }
+            // &:hover{
+            //     border-color: #69c9c5;
+            // }
             &[readonly]{
                 background-color: #f3f3f3;
                 opacity: 1;
@@ -34,15 +38,15 @@
                 }
             }
             &:focus{
-                border-color: #69c9c5;
-                outline: 0;
-                box-shadow: 0 0 0 2px rgba(68, 188, 183, 0.2);
+                // border-color: #69c9c5;
+                // outline: 0;
+                // box-shadow: 0 0 0 2px rgba(68, 188, 183, 0.2);
             }
         }
         .icon-right{
             position: absolute;
-            right: 10px;
-            top: 6px;
+            right: 19px;
+            top: 16px;
             font-size: 16px;
             color: #80848f;
             cursor: pointer;

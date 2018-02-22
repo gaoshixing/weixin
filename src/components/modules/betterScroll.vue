@@ -8,9 +8,9 @@
     <section class="inner" :style="{ transform: 'translate3d(0, ' + top + 'px, 0)' }">
       <header class="pull-refresh">
         <slot name="pull-refresh">
-           <span class="down-tip">下拉更新</span>
-           <span class="up-tip">松开更新</span>
-           <span class="refresh-tip">更新中</span>
+           <span style='color:font-size:12px;color: #666;' class="down-tip">下拉更新</span>
+           <span style='color:font-size:12px;color: #666;' class="up-tip">松开更新</span>
+           <span style='color:font-size:12px;color: #666;' class="refresh-tip">更新中</span>
         </slot>
       </header>
       <slot></slot>
@@ -133,9 +133,9 @@ export default {
 <style>
 .yo-scroll {
   position: absolute;
-  top: 0;
+  top: 0px;
   right: 0;
-  bottom: 0;
+  bottom: 40px;
   left: 0;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
@@ -175,7 +175,7 @@ export default {
 }
 .yo-scroll .load-more {
   /* margin-top: 100px; */
-  margin-bottom: 50px;
+  margin-bottom: 57px;
   height: 3rem;
   display: flex;
   font-size: 14px;

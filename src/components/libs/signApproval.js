@@ -25,10 +25,10 @@ export const SIGNAPPROVAL = {
     },
 
      // 查看审核记录
-     signApprovalRecordsList(obj) {
-        return http.get('htContract/auditRecordsList', {
-            params: obj
-        })
-    },
+    //  signApprovalRecordsList(obj) {
+    //     return http.get('htContract/auditRecordsList', {
+    //         params: obj
+    //     })
+    // },
 
 }

@@ -6,6 +6,10 @@ fastclick.attach(document.body)
 
 Vue.config.productionTip = false
 
+window.onload = function () {
+
+}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

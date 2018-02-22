@@ -1,5 +1,5 @@
 <template>
-	<div class="approveGsx">
+	<div class="approveGsx1">
 		<v-select 
         style="width:100%;"
         placeholder="输入合同名称/签约合同编号/学生EC号/学生姓名/顾问姓名"
@@ -13,25 +13,26 @@
 		<div class="title">
 			<span v-for="(item, index) in statusList" @click="addActiveTop(index)" :class="{active:num == index}">{{item}}</span>
 		</div>
-		 <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite">
-			<div class="content" @click="routerGo(item)" v-for="item in data.list">
-				<p ><span class="signName">{{item.name}}</span><span class="right">{{item.code}}</span></p>
-				<p>提交人: {{item.sellerName}}</p>
-				<p>提交时间: {{item.createDate|filterTime}}</p>
-				<p v-if="num>0">审核时间: {{item.auditingTime|filterTime}}</p>
-				<div v-if="num>0" class="statusZhang">
-					<div v-if="item.auditStatus=='agree'">
-						<i class="iconfont icon-zhang" style="color:#44bcb7"></i>
-						<span class="textZhang">{{item.auditStatus|signText}}</span>
-					</div>
-					<div v-if="item.auditStatus=='reject'">
-						<i class="iconfont icon-zhang" style="color:#eaacb7"></i>
-						<span class="textZhang">{{item.auditStatus|signText}}</span>
+		<div class="approve1Content">
+			<v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite">
+				<div class="content" @click="routerGo(item)" v-for="item in data.list">
+					<p ><span class="signName">{{item.name}}</span><span class="right">{{item.code}}</span></p>
+					<p>提交人: {{item.sellerName}}</p>
+					<p>提交时间: {{item.createDate|filterTime}}</p>
+					<p v-if="num>0">审核时间: {{item.auditingTime|filterTime}}</p>
+					<div v-if="num>0" class="statusZhang">
+						<div v-if="item.auditStatus=='agree'">
+							<i class="iconfont icon-zhang" style="color:#44bcb7"></i>
+							<span class="textZhang">通过</span>
+						</div>
+						<div v-if="item.auditStatus=='reject'">
+							<i class="iconfont icon-zhang" style="color:#eaacb7"></i>
+							<span class="textZhang">驳回</span>
+						</div>
 					</div>
 				</div>
-			</div>
-    	</v-scroll>
-		<div style="height:50px"></div>
+			</v-scroll>
+		</div>
 		<div class="isAgree">
 			<span  @click="addActive('news')"><i class="iconfont icon-xuanxiaoshenpi_"></i><br/>消息</span>
 			<span  class="active" @click="addActive('notice')" ><i class="iconfont icon-icon_notice "></i><br/>审核</span>
@@ -73,7 +74,6 @@ export default {
 
 	mounted() {
 		this.getSignApprovalList()
-		this.$el.querySelector('.yo-scroll').style.top = '77px'
 	},
 
 	methods: {
@@ -192,24 +192,31 @@ export default {
 		},
 
 		filterTime(val) {
-			return val.substr(0,7)
+			return val.substr(0,16)
 		}
  	}
 }
 </script>
 
 <style lang= "less">
-	.approveGsx {
+	.approveGsx1 {
+		overflow: hidden;
+		position: absolute;
+		top: 0;
+		bottom: 0px;
+		left: 0;
+		right: 0;
 		font-size: 14px;
 		color: #999;
 		.icon-zhang {
-			font-size: 150/2px;
+			font-size: 140/2px;
 		}
 		.title {
 			z-index: 9999;
 			color: #000;
 			height: 90/2px;
 			display: flex;
+			border-bottom: 1px solid #ccc;
 			justify-content: space-around;
 			span {
 				font-size: 28/2px;
@@ -222,6 +229,11 @@ export default {
 				border-bottom: 2px solid #4f77aa;
 			}
 		}
+		.approve1Content {
+			position: relative;
+			overflow: hidden;
+			height: 100%;
+		}
 		.content {
 			padding: 30/2px;
 			border-bottom: 1px solid #eee;
@@ -229,14 +241,16 @@ export default {
 			position:relative;
 			.signName {
 				display: inline-block;
-				width: 55%;
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
+				width: 53%;
+				overflow:hidden; 
+				text-overflow:ellipsis;
+				display:-webkit-box; 
+				-webkit-box-orient:vertical;
+				-webkit-line-clamp:2; 
 			}
 			p {
 				margin: 0;
-				line-height: 32px;
+				/* line-height: 32px; */
 			}
 			p:first-of-type {
 				color: #000;
@@ -244,13 +258,17 @@ export default {
 				margin-bottom: 20/2px;
 				.right {
 					font-size: 14px;
-					float: right;
+					position: absolute;
+					font-size: 14px;
+					right: 15px;
+					top: 18px;
+
 				}
 			}
 			.statusZhang {
 				position: absolute;
 				right: 15px;
-				top: 67px;
+				bottom: 2%;
 			}
 			.textZhang {
 				position: absolute;

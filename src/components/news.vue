@@ -10,18 +10,19 @@
         @on-click="textChange" 
         @selected="textChange">
 		</v-select>
-		<a v-if="data.list.length" @click="allRead" class="tab">全记已读</a>
-		<v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite">
-			<div class="content">
-				<div class="contentDetail" v-for="item in data.list">
-					<p @click="detaliInfo(item)">{{item.title}}<i v-if="item.readFlag != 1"></i><span>{{item.time}}</span></p>
-					<div class="noticeContent">
-						{{item.content}}
+		<a v-if="data.list.length" @click="allRead" class="tab">全部已读</a>
+		<div class="newsContent">
+			<v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite">
+				<div class="content">
+					<div class="contentDetail" v-for="item in data.list">
+						<p @click="detaliInfo(item)">{{item.title}}<i v-if="item.readFlag != 1"></i><span>{{item.sendTime}}</span></p>
+						<div class="noticeContent">
+							{{item.content}}
+						</div>
 					</div>
 				</div>
-			</div>
-		</v-scroll>
-		<div style="height:50px"></div>
+			</v-scroll>
+		</div>
 		<div class="isAgree">
 			<span class="active" @click="addActive('news')"><i class="iconfont icon-xuanxiaoshenpi_"></i><br/>消息</span>
 			<span @click="addActive('notice')" class="addActive"><i class="iconfont icon-icon_notice "></i><br/>审核</span>
@@ -59,13 +60,12 @@ export default {
 
 	mounted() {
 		this.getNewsMessage()
-		this.$el.querySelector('.yo-scroll').style.top = '33px'
 	},
 
 	methods: {
 		onRefresh(done) {
-				this.getNewsMessage();
-				done() 
+			this.getNewsMessage();
+			done() 
 		},
 
 		onInfinite(done) { 
@@ -93,7 +93,6 @@ export default {
 			})
 			.catch(errors.call(this))
 			.finally(() => {});
-				
 				
 		},
 		getNewsMessage() {
@@ -197,11 +196,11 @@ export default {
 		overflow: hidden;
 		position: absolute;
 		top: 0;
-		bottom: 50px;
+		bottom: 0px;
 		left: 0;
 		right: 0;
 		.tab {
-			top: 45px;
+			top: 60px;
 			display: block;
 			text-align: right;
 			right: 10px; 
@@ -209,6 +208,13 @@ export default {
 			z-index: 22222;
 			position: absolute;
 			color: #4f77aa;
+		}
+		.newsContent {
+			margin-top: 15px;
+			position: relative;
+			overflow: hidden;
+			height: 100%;
+			margin-bottom: 58.5px;
 		}
 		.content {
 			p:first-of-type {
@@ -229,7 +235,7 @@ export default {
 			}
 			.contentDetail {
 				padding: 10px 16px 16px 22px;
-				border-bottom: 1px solid #999;
+				border-bottom: 1px solid #eee;
 				.noticeContent {
 					font-size: 14px;
 					color: #999;
