@@ -6,23 +6,23 @@ const path = require('path')
 
 module.exports = {
   dev: {
-	port: 8989, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
-	// host:'0.0.0.0',
+	port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined 192.168.10.70
+	// host:'192.168.10.70',
 	// Paths
 	assetsSubDirectory: 'static',
 	//assetsPublicPath
     assetsPublicPath: '/',
     proxyTable: {
         "/spoc-contract":{
-            target:'http://47.93.31.175:8183',
+            target: 'http://47.93.31.175:8183',
             pathRewrite: {
                 "^/spoc-contract": "/spoc-contract",
             }
-        }
+        },
   	},
 
     // Various Dev Server settings
-    //host: 'localhost', // can be overwritten by process.env.HOST
+    host: 'localhost', // can be overwritten by process.env.HOST
     
     autoOpenBrowser: true,
     errorOverlay: true,

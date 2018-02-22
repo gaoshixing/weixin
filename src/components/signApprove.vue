@@ -116,7 +116,7 @@ export default {
 		}
 		.content {
 			padding: 30/2px;
-			border-bottom: 1px solid #ccc;
+			border-bottom: 1px solid #eee;
 			box-sizing: border-box;
 			position:relative;
 			p {

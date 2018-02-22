@@ -6,6 +6,10 @@ Vue.use(Router)
 export default new Router({
 	routes: [
 		{
+			path: "*",
+			redirect: "/"
+		},
+		{
 			path: 'notice',
 			name: 'notice',
 			redirect: {'name': 'approve'},
@@ -15,6 +19,13 @@ export default new Router({
 			name: 'approve',
 			component: (resolve) => {
 				require(['../components/approve'], resolve)
+			  }
+		},
+		{
+			path: '/approve1',
+			name: 'approve1',
+			component: (resolve) => {
+				require(['../components/approve1'], resolve)
 			  }
 		},
 		{

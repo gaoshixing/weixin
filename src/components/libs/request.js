@@ -4,13 +4,22 @@ const loginRouter = 'portal.login';
 
 export const baseURL = "/spoc-contract/a/ws/contract";
 
+export const baseURLCommon = "/spoc-contract/a/ws/sys";
+
 export const http = axios.create({
     baseURL,
     timeout: 20000,
     withCredentials: true,
 });
 
+export const httpCommon = axios.create({
+    baseURL: baseURLCommon,
+    timeout: 20000,
+    withCredentials: true,
+});
+
 export {SIGNAPPROVAL} from './signApproval';
+export {NEWS} from './says'
 
 export default function () {
     return (res) => {

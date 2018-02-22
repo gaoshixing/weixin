@@ -6,7 +6,7 @@
         .main-input{
             display: inline-block;
             height: 32px;
-            line-height: 32px;
+            padding: 1rem 0;
             padding: 0 24px 0 8px;
             font-size: 12px;
             outline: 0;
@@ -42,7 +42,7 @@
         .icon-right{
             position: absolute;
             right: 10px;
-            top: 4px;
+            top: 6px;
             font-size: 16px;
             color: #80848f;
             cursor: pointer;

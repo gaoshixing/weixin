@@ -31,7 +31,6 @@
 				</div>
 			</div>
     	</v-scroll>
-		
 		<div style="height:50px"></div>
 		<div class="isAgree">
 			<span  @click="addActive('news')"><i class="iconfont icon-xuanxiaoshenpi_"></i><br/>消息</span>
@@ -50,14 +49,14 @@ export default {
 		return {
 			pageNo: 1,
 			statusList: ['待处理', '已处理'], 
-			num: 0,
+			num: 1,
 			pageSize: 10,
 			compact: '',
 			count: '',
 			data: {
 				list: [],
 			},
-			auditStatus: 'upgrade,waiting',
+			auditStatus: 'agree,reject',
 		}
 	},
 	components: {
@@ -137,14 +136,12 @@ export default {
 		},
 
 		addActiveTop(index) {
-		
-			if(index) {
+			if(!index) {
 				this.$router.replace({
-					name: 'approve1',
+					name: 'approve',
 				})
+				return 
 			}
-	
-			
 		},
 
 		routerGo(item) {
@@ -264,7 +261,7 @@ export default {
 			}
 		}
 		.isAgree {
-			
+            font-size: 12px;
 			width: 100%;
 			position: fixed;
 			bottom: 0;
@@ -277,9 +274,9 @@ export default {
 				width: 50%;
 				font-size: 12px;
 				text-align: center;
-				height: 97/2px;
+                height: 97/2px;
 				color: #999;
-				padding-top: 9px;
+                padding-top: 9px;
 			}
 			.active {
 				color: #4f77aa;				

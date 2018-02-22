@@ -2,7 +2,7 @@
 	<div class="signDetailGsx">
 		
 		<p>合同名称: {{data.name}}</p>
-		<p>合同类型: {{data.stage}}</p>
+		<p>合同类型: {{data.tags}}</p>
 		<p>合同编号: {{data.code}}</p>
 		<p>合同原价: {{data.price}}</p>
 		<p>实际签约金额: {{data.presentPrice}}</p>
@@ -12,7 +12,7 @@
         	<div>{{data.protocolContent}}</div>
 		</div>
 		
-		<p>提交人: {{data.auditorName}}</p>
+		<p>提交人: {{data.sellerUser.name}}</p>
 		<p>提交时间: {{data.signTime}}</p>
 	</div>
 </template>
@@ -46,6 +46,6 @@ export default {
 
 <style lang= "less">
 	.signDetailGsx {
-		padding: 50/2px 30/2px;
+		padding: 50/2px 30/2px 0;
 	}
 </style>

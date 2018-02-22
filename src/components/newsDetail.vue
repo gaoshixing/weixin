@@ -1,8 +1,8 @@
 <template>
 	<div class="newsDetailGsx">
 		<p class="title">《{{obj.title}}》</p>
-		<div class="content">{{obj.content}}</div>
-		<p class="time">{{obj.time}}</p>
+		<div class="content">{{obj.description}}</div>
+		<p class="time">{{obj.sendTime}}</p>
 		<div v-if="isShow" class="isAgree">
 			<span>驳回</span><span>通过</span>
 		</div>
@@ -10,21 +10,38 @@
 </template>
 
 <script>
-import vSelect from './modules/vSelect'
+import valid, { errors, NEWS } from "./libs/request";
 export default {
 	data () {
 		return {
 			obj: {
-				title: '签约通知',
-				content: '大家回顾大家的撒看的比较卡萨不对劲卡斯比登记卡随便点击就爱看是笨蛋就爱看不放假卡斯比道具卡驾考宝典就爱看斯巴达克',
-				time: '2017.01.03'
 			},
 			isShow: true,
 		}
 	},
+	
+	mounted() {
+		this.getNoticeDeatil()
+	},
 
 	methods: {
-
+		getNoticeDeatil() {
+			let obj = {
+				id: this.$route.query.id
+			}
+			NEWS.noticeDetail(obj)
+			.then(valid.call(this))
+			.then(res => {
+				if(res.ok) {
+					console.log(res.data.data)
+					this.obj = res.data.data
+				}
+				
+			})
+			.catch(errors.call(this))
+			.finally(() => {});
+		}
+		
 	}
 }
 </script>

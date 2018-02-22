@@ -58,7 +58,7 @@ export default {
 		.res {
 			padding: 50/2px 30/2px;
 			margin-top: 50/2px;
-			border-top: 1px solid #ccc;
+			border-top: 1px solid #eee;
 		}
 	}
 </style>

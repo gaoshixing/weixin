@@ -1,5 +1,5 @@
 <template>
-	<div class="newsGsx">
+	<div class="newsGsx1">
 		<v-select 
         style="width:100%;"
         placeholder="输入合同名称/签约合同编号/学生EC号/学生姓名/顾问姓名"
@@ -10,15 +10,17 @@
         @on-click="textChange" 
         @selected="textChange">
 		</v-select>
-		<div class="content">
-			<a @click="allRead" class="tab">全部标记为已读</a>
-			<div class="contentDetail" v-for="item in obj">
-				<p @click="detaliInfo">{{item.title}}<i v-if="item.status"></i><span>{{item.time}}</span></p>
-				<div class="noticeContent">
-					{{item.content}}
+		<a v-if="data.list.length" @click="allRead" class="tab">全记已读</a>
+		<v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite">
+			<div class="content">
+				<div class="contentDetail" v-for="item in data.list">
+					<p @click="detaliInfo(item)">{{item.title}}<i v-if="item.readFlag != 1"></i><span>{{item.time}}</span></p>
+					<div class="noticeContent">
+						{{item.content}}
+					</div>
 				</div>
 			</div>
-		</div>
+		</v-scroll>
 		<div style="height:50px"></div>
 		<div class="isAgree">
 			<span class="active" @click="addActive('news')"><i class="iconfont icon-xuanxiaoshenpi_"></i><br/>消息</span>
@@ -26,29 +28,27 @@
 		</div>
 	</div>
 </template>
-
 <script>
 import vSelect from './modules/vSelect'
+import valid, { errors, NEWS } from "./libs/request";
+import Scroll from './modules/betterScroll';
+
 export default {
 	data () {
 		return {
 			compact: '',
-			obj: [
-				{status: true,title: '签约通知', time: '2017.01.7', content: '到哪里看吧大保健安保点击看顶部萨拉丁不解散科技是的比较安康杯丹江口市fhajha'},
-				{status: true,title: '签约通知', time: '2017.01.7', content: '到哪里看吧大保健安保点击看顶部萨拉丁不解散科技是的比较安康杯丹江口市fhajha'},
-				{status: false,title: '签约通知', time: '2017.01.7', content: '到哪里看吧大保健安保点击看顶部萨拉丁不解散科技是的比较安康杯丹江口市fhajha'},
-				{status: true,title: '签约通知', time: '2017.01.7', content: '到哪里看吧大保健安保点击看顶部萨拉丁不解散科技是的比较安康杯丹江口市fhajha'},
-				{status: true,title: '签约通知', time: '2017.01.7', content: '到哪里看吧大保健安保点击看顶部萨拉丁不解散科技是的比较安康杯丹江口市fhajha'},
-				{status: true,title: '签约通知', time: '2017.01.7', content: '到哪里看吧大保健安保点击看顶部萨拉丁不解散科技是的比较安康杯丹江口市fhajha'},
-				{status: true,title: '签约通知', time: '2017.01.7', content: '到哪里看吧大保健安保点击看顶部萨拉丁不解散科技是的比较安康杯丹江口市fhajha'},
-				{status: true,title: '签约通知', time: '2017.01.7', content: '到哪里看吧大保健安保点击看顶部萨拉丁不解散科技是的比较安康杯丹江口市fhajha'},
-				{status: true,title: '签约通知', time: '2017.01.7', content: '到哪里看吧大保健安保点击看顶部萨拉丁不解散科技是的比较安康杯丹江口市fhajha'},
-				{status: true,title: '签约通知', time: '2017.01.7', content: '到哪里看吧大保健安保点击看顶部萨拉丁不解散科技是的比较安康杯丹江口市fhajha'},
-			]
+			readFlag: '',
+			pageNo: 1,
+			pageSize: 10,
+			data: {
+				list: []
+			},
+			count: '',
 		}
 	},
 	components: {
 		vSelect,
+		'v-scroll': Scroll,
 	},
 	
 	computed: {
@@ -57,25 +57,96 @@ export default {
 		}
 	},
 
+	mounted() {
+		this.getNewsMessage()
+		this.$el.querySelector('.yo-scroll').style.top = '33px'
+	},
+
 	methods: {
+		onRefresh(done) {
+				this.getNewsMessage();
+				done() 
+		},
+
+		onInfinite(done) { 
+			if(this.pageNo * this.pageSize >= this.count) {
+				this.$el.querySelector('.load-more span').innerHTML = '没有更多了';
+				return
+			}
+			this.pageNo++
+			let obj = {
+				readFlag: this.readFlag,
+				menuId: 201,
+				pageNo: this.pageNo,
+				pageSize: this.pageSize,
+			}
+
+			NEWS.message(obj)
+			.then(valid.call(this))
+			.then(res => {
+				if(res.ok) {
+					res.data.data.list.forEach((item) => {
+						this.data.list.push(item)	
+						done()
+					})
+				}
+			})
+			.catch(errors.call(this))
+			.finally(() => {});
+				
+				
+		},
+		getNewsMessage() {
+			let obj = {
+				readFlag: this.readFlag,
+				menuId: 201,
+				pageNo: 1,
+				pageSize: 10,
+			}
+
+			NEWS.message(obj)
+			.then(valid.call(this))
+			.then(res => {
+				if(res.ok) {
+					this.data = res.data.data
+					this.count = res.data.data.count
+					this.pageNo = 1
+					if(this.count < 10) {
+						this.$el.querySelector('.load-more span').innerHTML = '没有更多了';
+					}else {
+						this.$el.querySelector('.load-more span').innerHTML = '加载中...';
+					}
+				}
+				
+			})
+			.catch(errors.call(this))
+			.finally(() => {});
+		},
+
 		addActive(index) {
 			this.num = index
 		},
 
 		allRead() {
-			alert(0)
+			this.id = ''
+			this.targetMarkRead()
 		},
 
-		routerGo() {
-			if(this.num) {
-				this.$router.replace({
-					name: 'signResult'
-				})
-				return 
+		targetMarkRead() {
+			let obj = {
+				id: this.id
 			}
-			this.$router.replace(
-				{name: 'signDetail'}
-			)
+
+			NEWS.markRead(obj)
+			.then(valid.call(this))
+			.then(res => {
+				if(res.ok) {
+					this.getNewsMessage()
+				}
+				
+			})
+			.catch(errors.call(this))
+			.finally(() => {});
 		},
 
 		addActive(obj) {
@@ -91,9 +162,14 @@ export default {
 			})
 		},
 
-		detaliInfo() {
+		detaliInfo(item) {
+			this.id = item.id
+			this.targetMarkRead()
 			this.$router.replace({
-				name: 'newsDetail'
+				name: 'newsDetail',
+				query: {
+					id: item.id
+				}
 			})
 		},
 
@@ -117,11 +193,21 @@ export default {
 </script>
 
 <style lang= "less">
-	.newsGsx {
+	.newsGsx1 {
+		overflow: hidden;
+		position: absolute;
+		top: 0;
+		bottom: 50px;
+		left: 0;
+		right: 0;
 		.tab {
-			position: relative;
-			left: 70%;
-			top: 15px;
+			top: 45px;
+			display: block;
+			text-align: right;
+			right: 10px; 
+			width: 100%;
+			z-index: 22222;
+			position: absolute;
 			color: #4f77aa;
 		}
 		.content {
@@ -166,10 +252,11 @@ export default {
 			span {
 				display: inline-block;
 				width: 50%;
-				font-size: 16px;
+				font-size: 12px;
 				text-align: center;
-			
 				color: #999;
+				height:  97/2px;
+				padding-top: 9px;
 			}
 			.active {
 				color: #4f77aa;				
